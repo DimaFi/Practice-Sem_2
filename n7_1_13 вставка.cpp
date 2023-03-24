@@ -26,18 +26,18 @@ int main()
 	for (i = 0; i < n; i++) {
 		in >> a[i].cour >> a[i].fam >> a[i].name >> a[i].surn >> a[i].year >> a[i].n1 >> a[i].n2 >> a[i].n3 >> a[i].n4 >> a[i].n5;
 	}
-	
+
 	stud a1;
 
 	for (i = 1; i < n; i++) {
 		j = i;
-		while (a[j].fam[0] > a[j - 1].fam[0] && j >= 0) {
+		while (a[j].fam[0] < a[j - 1].fam[0] && j > 0) {
 			a1 = a[j];
 			a[j] = a[j - 1];
 			a[j - 1] = a1;
 			j--;
 		}
-		while (a[j].year > a[j - 1].year && j >= 0) {
+		while (a[j].year > a[j - 1].year && j > 0 && a[j].fam[0] == a[j - 1].fam[0]) {
 			a1 = a[j];
 			a[j] = a[j - 1];
 			a[j - 1] = a1;
@@ -46,9 +46,9 @@ int main()
 	}
 
 	for (i = 0; i < n; i++) {
-		out << a[i].cour << a[i].fam << a[i].name << a[i].surn << a[i].year << a[i].n1 << a[i].n2 << a[i].n3 << a[i].n4 << a[i].n5 << endl;
+		out << a[i].cour << ' ' << a[i].fam << ' ' << a[i].name << ' ' << a[i].surn << ' ' << a[i].year << ' ' << a[i].n1 << ' ' << a[i].n2 << a[i].n3 << ' ' << a[i].n4 << ' ' << a[i].n5 << endl;
 	}
-	
+
 	in.close();
 	out.close();
 }
