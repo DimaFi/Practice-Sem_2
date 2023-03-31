@@ -46,7 +46,49 @@ int main()
 	}
 
 	for (i = 0; i < n; i++) {
-		out << a[i].cour << ' ' << a[i].fam << ' ' << a[i].name << ' ' << a[i].surn << ' ' << a[i].year << ' ' << a[i].n1 << ' ' << a[i].n2 << a[i].n3 << ' ' << a[i].n4 << ' ' << a[i].n5 << endl;
+		out << a[i].cour << ' ' << a[i].fam << ' ' << a[i].name << ' ' << a[i].surn << ' ' << a[i].year << ' ' << a[i].n1 << ' ' << a[i].n2 << ' ' << a[i].n3 << ' ' << a[i].n4 << ' ' << a[i].n5 << endl;
+	}
+
+	out << endl;
+
+	stud* b = new stud[n];
+
+	for (i = 0; i < n; i++) {
+		in >> b[i].cour >> b[i].fam >> b[i].name >> b[i].surn >> b[i].year >> b[i].n1 >> b[i].n2 >> b[i].n3 >> b[i].n4 >> b[i].n5;
+	}
+
+	stud a2;
+	int lowindex = 0;
+
+	for (i = 0; i < n; i++) {
+		j = i;
+		for (j = i + 1; j < n; j++) {
+			if (b[j].fam[0] < a1.fam[0] && j > 0) {
+				a1 = a[j];
+				lowindex = j;
+			}
+		}
+		a2 = b[i];
+		b[i] = b[lowindex];
+		b[lowindex] = a2;
+	}
+
+	for (i = 0; i < n; i++) {
+		j = i;
+		for (j = i + 1; j < n; j++) {
+			a1 = b[j];
+			if (a1.year > b[j - 1].year && j > 0 && a1.fam[0] == b[j - 1].fam[0]) {
+				a1 = b[j];
+				lowindex = j;
+			}
+		}
+		a2 = b[i];
+		b[i] = b[lowindex];
+		b[lowindex] = a2;
+	}
+
+	for (i = 0; i < n; i++) {
+		out << b[i].cour << ' ' << b[i].fam << ' ' << b[i].name << ' ' << b[i].surn << ' ' << b[i].year << ' ' << b[i].n1 << ' ' << b[i].n2 << ' ' << b[i].n3 << ' ' << b[i].n4 << ' ' << b[i].n5 << endl;
 	}
 
 	in.close();
