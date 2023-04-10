@@ -106,3 +106,4 @@ int main()
 141 Dash Dima Oui 2003 3 4 3 4 5
 141 Andreeva Lui Pan 2004 2 2 2 2 2
 */
+//Сделать дз семинар!!!
