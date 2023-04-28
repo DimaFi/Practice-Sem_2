@@ -1,119 +1,99 @@
 #include <iostream>
-#include <iomanip>
+#include <fstream>
 #include <string>
 #include <Windows.h>
-#include <fstream>
-
 using namespace std;
+
+struct people {
+	int year, p1, p2, p3, p4, p5;
+	string name, surname, secname;
+};
+
+void bubble(people* a, int n) {
+	people temp;
+	int i, j;
+	for (i = 0; i < n; i++) {
+		for (i = n; i >= 0; i--) {
+			j = i;
+			while (a[j].surname < a[j - 1].surname && j > 0) {
+				swap(a[j], a[j - 1]);
+				j--;
+			}
+			while (a[j].year > a[j - 1].year&& j > 0 && a[j].surname == a[j - 1].surname) {
+				swap(a[j], a[j - 1]);
+				j--;
+			}
+		}
+	}
+}
+
+void choose_sort(people* mas1, int n) {
+	for (int i = 0; i < n; i++) {
+		int mind = i;
+		for (int j = i + 1; j < n; j++) {
+			if (mas1[j].surname < mas1[mind].surname) {
+				mind = j;
+			}
+			else if (mas1[j].surname == mas1[mind].surname && mas1[j].year > mas1[mind].year) {
+				mind = j;
+			}
+		}
+		if (mind != i) {
+			swap(mas1[i], mas1[mind]);
+		}
+	}
+}
+
+void in_sort(people* mas2, int n) {
+	for (int i = 1; i < n; i++) {
+		people key = mas2[i];
+		int j = i - 1;
+		while (j >= 0 && (mas2[j].surname > key.surname || (mas2[j].surname == key.surname && mas2[j].year < key.year))) {
+			mas2[j + 1] = mas2[j];
+			j = j - 1;
+		}
+		mas2[j + 1] = key;
+	}
+}
+
 
 ifstream in("input.txt");
 ofstream out("output.txt");
 
-struct stud {
-	string name, surn, fam;
-	int cour, year, n1, n2, n3, n4, n5;
-};
+int main() {
 
+	int num, n = 0;
+	string ss;
 
-int main()
-{
-	int i, j, n, min = 999;
+	while (in.peek() != EOF) {
+		getline(in, ss, '\n');
+		n++;
+	}
+	n--;
+	cout << n;
 
-	in >> n;
+	in.clear();
+	in.seekg(0);
 
-	stud* a = new stud[n];
+	in >> num;
 
-	for (i = 0; i < n; i++) {
-		in >> a[i].cour >> a[i].fam >> a[i].name >> a[i].surn >> a[i].year >> a[i].n1 >> a[i].n2 >> a[i].n3 >> a[i].n4 >> a[i].n5;
+	people* a = new people[n];
+
+	for (int i = 0; i < n; i++) {
+		in >> a[i].name >> a[i].surname >> a[i].secname >> a[i].year >> a[i].p1 >> a[i].p2 >> a[i].p3 >> a[i].p4 >> a[i].p5;
 	}
 
-	stud a1;
+	bubble(a, n);
+	//in_sort(a, n);
+	//choose_sort(a, n);
 
-	for (i = 1; i < n; i++) {
-		j = i;
-		while (a[j].fam[0] < a[j - 1].fam[0] && j > 0) {
-			a1 = a[j];
-			a[j] = a[j - 1];
-			a[j - 1] = a1;
-			j--;
-		}
-		while (a[j].year > a[j - 1].year && j > 0 && a[j].fam[0] == a[j - 1].fam[0]) {
-			a1 = a[j];
-			a[j] = a[j - 1];
-			a[j - 1] = a1;
-			j--;
-		}
-	}
+	out << num << endl;
 
-	for (i = 0; i < n; i++) {
-		out << a[i].cour << a[i].fam << a[i].name << a[i].surn << a[i].year << a[i].n1 << a[i].n2 << a[i].n3 << a[i].n4 << a[i].n5 << endl;
-	}
-
-	out << endl;
-	j = 0;
-	for (i = 0; i < n; i++) {
-		int max = 1;
-		int mx = 0;
-		for (int i1 = i; i1 < n; i1++)
-			if (a[i1].year > max) {
-				mx = i1;
-				max = a[i1].year;
-			}
-		a1 = a[mx];
-		a[mx] = a[j];
-		a[j] = a1;
-		j++;
-
-	}
-	j = 0;
-	for (i = 0; i < n; i++) {
-		min = 100;
-		int mn = 0;
-		for (int i1 = i; i1 < n; i1++)
-			if (a[i1].fam[0] < min) {
-				mn = i1;
-				min = a[i1].fam[0];
-			}
-		a1 = a[mn];
-		a[mn] = a[j];
-		a[j] = a1;
-		j++;
-
-		int j1 = j;
-		for (int ii = j1; ii < n; ii++) {
-			int max = 1;
-			int mx = 0;
-			for (int ii1 = ii; ii1 < n; ii1++)
-				if (a[ii1].year > max) {
-					mx = ii1;
-					max = a[ii1].year;
-				}
-			a1 = a[mx];
-			a[mx] = a[j1];
-			a[j1] = a1;
-			j1++;
-
-		}
-	}
-
-	for (i = 0; i < n; i++) {
-		out << a[i].cour << a[i].fam << a[i].name << a[i].surn << a[i].year << a[i].n1 << a[i].n2 << a[i].n3 << a[i].n4 << a[i].n5 << endl;
+	for (int i = 0; i < n; i++) {
+		out << a[i].name << ' ' << a[i].surname << ' ' << a[i].secname << ' ' << a[i].year << ' ' << a[i].p1 << ' ' << a[i].p2 << ' ' << a[i].p3 << ' ' << a[i].p4 << ' ' << a[i].p5 << endl;
 	}
 
 	in.close();
 	out.close();
 
-	return 0;
 }
-
-/*
-8
-141 Dash Dima Pan 2001 3 4 3 4 5
-141 Bank Nikolay Gyn 1995 3 4 3 4 3
-141 Info Kokya Uio 2000 3 3 3 4 5
-141 Gihu Dima Pan 2011 3 4 3 4 3
-141 Banka Nikolay Gyn 1996 3 4 3 4 3
-141 Andreev Lui Pan 2005 2 2 2 2 2
-141 Dash Dima Oui 2003 3 4 3 4 5
-141 Andreeva Lui Pan 2004 2 2 2 2 2
-*/
