@@ -9,50 +9,67 @@ struct people {
 	string name, surname, secname;
 };
 
+bool comp(string s1, string s2) {
+	if (s1 > s2) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+bool comp(string s1, string s2, int p) {
+	if (s1 == s2) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+
 void bubble(people* a, int n) {
 	people temp;
-	int i, j;
+	int i, j, k;
 	for (i = 0; i < n; i++) {
-		for (i = n; i >= 0; i--) {
-			j = i;
-			while (a[j].surname < a[j - 1].surname && j > 0) {
-				swap(a[j], a[j - 1]);
-				j--;
-			}
-			while (a[j].year > a[j - 1].year&& j > 0 && a[j].surname == a[j - 1].surname) {
-				swap(a[j], a[j - 1]);
-				j--;
-			}
+		j = n-1;
+		while (j > 0 && comp(a[j].surname, a[j - 1].surname)) {
+			swap(a[j], a[j - 1]);
+			j--;
+		}	
+		while (a[j].year > a[j - 1].year && j > 0 && comp(a[j].surname, a[j - 1].surname, n)) {
+			swap(a[j], a[j - 1]);
+			j--;
 		}
 	}
 }
 
-void choose_sort(people* mas1, int n) {
+void choose_sort(people* a, int n) {
 	for (int i = 0; i < n; i++) {
 		int mind = i;
 		for (int j = i + 1; j < n; j++) {
-			if (mas1[j].surname < mas1[mind].surname) {
+			if (comp(a[j].surname, a[mind].surname)) {
 				mind = j;
 			}
-			else if (mas1[j].surname == mas1[mind].surname && mas1[j].year > mas1[mind].year) {
+			else if (comp(a[j].surname, a[mind].surname, n) && a[j].year > a[mind].year) {
 				mind = j;
 			}
 		}
 		if (mind != i) {
-			swap(mas1[i], mas1[mind]);
+			swap(a[i], a[mind]);
 		}
 	}
 }
 
-void in_sort(people* mas2, int n) {
+void in_sort(people* a, int n) {
 	for (int i = 1; i < n; i++) {
-		people key = mas2[i];
+		people key = a[i];
 		int j = i - 1;
-		while (j >= 0 && (mas2[j].surname > key.surname || (mas2[j].surname == key.surname && mas2[j].year < key.year))) {
-			mas2[j + 1] = mas2[j];
+		while (j >= 0 && comp(a[j].surname, key.surname) && a[j].year < key.year) {
+			a[j + 1] = a[j];
 			j = j - 1;
 		}
-		mas2[j + 1] = key;
+		a[j + 1] = key;
 	}
 }
 
@@ -70,7 +87,8 @@ int main() {
 		n++;
 	}
 	n--;
-	cout << n;
+
+	//cout << n;
 
 	in.clear();
 	in.seekg(0);
@@ -80,8 +98,14 @@ int main() {
 	people* a = new people[n];
 
 	for (int i = 0; i < n; i++) {
-		in >> a[i].name >> a[i].surname >> a[i].secname >> a[i].year >> a[i].p1 >> a[i].p2 >> a[i].p3 >> a[i].p4 >> a[i].p5;
+		in >> a[i].surname >> a[i].name >> a[i].secname >> a[i].year >> a[i].p1 >> a[i].p2 >> a[i].p3 >> a[i].p4 >> a[i].p5;
 	}
+
+	for (int i = 0; i < n; i++) {
+		out << a[i].surname << ' ' << a[i].name << ' ' << a[i].secname << ' ' << a[i].year << ' ' << a[i].p1 << ' ' << a[i].p2 << ' ' << a[i].p3 << ' ' << a[i].p4 << ' ' << a[i].p5 << endl;
+	}
+
+	out << endl;
 
 	bubble(a, n);
 	//in_sort(a, n);
@@ -90,7 +114,7 @@ int main() {
 	out << num << endl;
 
 	for (int i = 0; i < n; i++) {
-		out << a[i].name << ' ' << a[i].surname << ' ' << a[i].secname << ' ' << a[i].year << ' ' << a[i].p1 << ' ' << a[i].p2 << ' ' << a[i].p3 << ' ' << a[i].p4 << ' ' << a[i].p5 << endl;
+		out << a[i].surname << ' ' << a[i].name << ' ' << a[i].secname << ' ' << a[i].year << ' ' << a[i].p1 << ' ' << a[i].p2 << ' ' << a[i].p3 << ' ' << a[i].p4 << ' ' << a[i].p5 << endl;
 	}
 
 	in.close();
