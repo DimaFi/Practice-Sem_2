@@ -9,17 +9,11 @@ struct people {
 	string name, surname, secname;
 };
 
-bool comp(string s1, string s2) {
-	if (s1 > s2) {
+bool comp(people s1, people s2) {
+	if (s1.surname > s2.surname) {
 		return 1;
 	}
-	else {
-		return 0;
-	}
-}
-
-bool comp(string s1, string s2, int p) {
-	if (s1 == s2) {
+	else if (s1.surname == s2.surname && s1.year > s2.year) {
 		return 1;
 	}
 	else {
@@ -32,12 +26,12 @@ void bubble(people* a, int n) {
 	people temp;
 	int i, j, k;
 	for (i = 0; i < n; i++) {
-		j = n-1;
-		while (j > 0 && comp(a[j].surname, a[j - 1].surname)) {
+		j = n - 1;
+		while (j > 0 && comp(a[j], a[j - 1])) {
 			swap(a[j], a[j - 1]);
 			j--;
-		}	
-		while (a[j].year > a[j - 1].year && j > 0 && comp(a[j].surname, a[j - 1].surname, n)) {
+		}
+		while (j > 0 && comp(a[j], a[j - 1])) {
 			swap(a[j], a[j - 1]);
 			j--;
 		}
@@ -48,10 +42,10 @@ void choose_sort(people* a, int n) {
 	for (int i = 0; i < n; i++) {
 		int mind = i;
 		for (int j = i + 1; j < n; j++) {
-			if (comp(a[j].surname, a[mind].surname)) {
+			if (comp(a[j], a[mind])) {
 				mind = j;
 			}
-			else if (comp(a[j].surname, a[mind].surname, n) && a[j].year > a[mind].year) {
+			else if (comp(a[j], a[mind])) {
 				mind = j;
 			}
 		}
@@ -65,7 +59,7 @@ void in_sort(people* a, int n) {
 	for (int i = 1; i < n; i++) {
 		people key = a[i];
 		int j = i - 1;
-		while (j >= 0 && comp(a[j].surname, key.surname) && a[j].year < key.year) {
+		while (j >= 0 && comp(a[j], key)) {
 			a[j + 1] = a[j];
 			j = j - 1;
 		}
