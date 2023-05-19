@@ -115,3 +115,15 @@ int main() {
 	out.close();
 
 }
+
+
+/*141
+Dash Dima Pan 2001 3 4 3 4 5
+Bank Nikolay Gyn 1995 3 4 3 4 3
+Info Kokya Uio 2000 3 3 3 4 5
+Gihu Dima Pan 2011 3 4 3 4 3
+Banka Nikolay Gyn 1996 3 4 3 4 3
+Andreev Lui Pan 2005 2 2 2 2 2
+Dash Dima Oui 2003 3 4 3 4 5
+Andreeva Lui Pan 2004 2 2 2 2 2
+*/
