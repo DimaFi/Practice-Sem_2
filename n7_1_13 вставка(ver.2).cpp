@@ -24,16 +24,12 @@ bool comp(people s1, people s2) {
 
 void bubble(people* a, int n) {
 	people temp;
-	int i, j, k;
-	for (i = 0; i < n; i++) {
-		j = n - 1;
-		while (j > 0 && comp(a[j], a[j - 1])) {
-			swap(a[j], a[j - 1]);
-			j--;
-		}
-		while (j > 0 && comp(a[j], a[j - 1])) {
-			swap(a[j], a[j - 1]);
-			j--;
+	int j, k;
+	for (int i = 0; i < n-1; i++) {
+		for (int j = n - 1; j > i;j--) {
+			if (comp(a[j-1], a[j])) {
+				swap(a[j], a[j - 1]);
+			}
 		}
 	}
 }
@@ -42,10 +38,7 @@ void choose_sort(people* a, int n) {
 	for (int i = 0; i < n; i++) {
 		int mind = i;
 		for (int j = i + 1; j < n; j++) {
-			if (comp(a[j], a[mind])) {
-				mind = j;
-			}
-			else if (comp(a[j], a[mind])) {
+			if (comp(a[mind], a[j])) {
 				mind = j;
 			}
 		}
@@ -101,9 +94,9 @@ int main() {
 
 	out << endl;
 
-	bubble(a, n);
+	//bubble(a, n);
 	//in_sort(a, n);
-	//choose_sort(a, n);
+	choose_sort(a, n);
 
 	out << num << endl;
 
